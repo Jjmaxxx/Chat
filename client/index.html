@@ -1,0 +1,97 @@
+<!doctype html>
+  <html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet"/>
+    <style>
+    #chat-form{
+      color:red;
+      background-color: purple;
+      margin:100px;
+
+    }
+    #msg{
+      text-align:center;
+      color:darkblue;
+      font-weight: bold;
+      height:20px;
+      width:300px;
+      margin:1px;
+    }
+
+
+    h1{
+      text-align:center;
+      color:darkgreen;
+    }
+    body{
+      background-color:lightblue;
+
+    }
+    </style>
+  </head>
+  <body>
+  <h1>Chat Room Thing</h1>
+  <div id="posts"></div>
+  <p id="typing"></p>
+<form id="chat-form">
+  <input type="text" name="msg" id="msg"></input>
+  <input type="submit" ></input>
+</form>
+  </body>
+  <script src="/socket.io/socket.io.js">
+  </script>
+  <script>
+  window.onload = ()=>{
+    let socket = io();
+    let form = document.getElementById("chat-form");
+    let input = document.getElementById("msg");
+    let posts = document.getElementById("posts");
+    let username = "";
+    form.onsubmit = (event) =>{
+      event.preventDefault();
+      socket.emit("chat",username,input.value);
+      input.value = "";
+    }
+  input.onkeydown = (event) => {
+    if (event.key == "Backspace" && input.value.length <= 1){
+      socket.emit("typing","");
+    }
+    else{
+      socket.emit("typing",username);
+    }
+  }
+    socket.on("chat",(history)=>{
+
+      console.log(history);
+
+      posts.innerHTML = "";
+      for(let i=0;i < history.length; i++){
+        let command = "";
+        if(history[i][1].indexOf("/") == 0){
+          let end = history[i][1].indexOf(" ");
+          command = history[i][1].slice(history[i][1].indexOf("/")+1,end);
+          history[i][1] = history[i][1].slice(end);
+        }
+
+        let p = document.createElement("P");
+          if(command =="say"){
+            p.style.color = "blue";
+          }
+          if(command =="why"){
+            p.style.color = "purple";
+            p.style.fontFamily = "Anton";
+          }
+          p.innerHTML = history[i][0]+": "+ history[i][1];
+          posts.appendChild(p);
+      }
+
+    });
+
+    socket.on("typing",(result)=>{
+      let p = document.getElementById("typing");
+      p.innerHTML = result;
+    })
+    username = prompt("username");
+}
+  </script>
+  </html>
