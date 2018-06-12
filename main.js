@@ -10,7 +10,7 @@ let io = require("socket.io")(server);
 app.use(express.static(path.resolve(__dirname, './client')));
 
 app.get("/",(req,res)=>{
-  res.sendFile("C:/Users/Justin/Documents/Chat/index.html")
+  res.sendFile(path.resolve(__dirname, './client/index.html'))
 });
 
 
