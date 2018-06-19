@@ -2,34 +2,7 @@
   <html>
   <head>
     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet"/>
-    <style>
-    #chat-form{
-      background-color: purple;
-      margin:100px;
-      padding:2px;
-      display: inline-block;
-      margin-left:auto;
-      margin-right:auto;
-    }
-    #msg{
-      text-align:center;
-      font-weight: bold;
-      height:18px;
-      width:400px;
-    }
-
-    h1{
-      /*text-align:center;*/
-      color:green;
-    }
-    body{
-      background-color:lightblue;
-    }
-
-    p {
-      font-family:Arial;
-    }
-    </style>
+   <link rel="stylesheet" href="index.css">
   </head>
   <body>
   <h1><p id="no" onclick = "change()">Chat Room</p></h1>
@@ -37,84 +10,11 @@
   <p id="typing"></p>
 <form id="chat-form">
   <input type="text" name="msg" id="msg"></input>
-  <input type="submit" value="Send"></input>
+  <input type="submit" value="Send" id="send"></input>
+
 </form>
   </body>
   <script src="/socket.io/socket.io.js">
   </script>
-  <script>
-  window.onload = ()=>{
-    let socket = io();
-    let form = document.getElementById("chat-form");
-    let input = document.getElementById("msg");
-    let posts = document.getElementById("posts");
-    let username = "";
-
-    form.onsubmit = (event) =>{
-      event.preventDefault();
-      socket.emit("chat",username,input.value);
-      input.value = "";
-    }
-  input.onkeydown = (event) => {
-    if (event.key == "Backspace" && input.value.length <= 1){
-      socket.emit("typing","");
-    }
-    else{
-      socket.emit("typing",username);
-    }
-  }
-    socket.on("chat",(history)=>{
-
-      console.log(history);
-
-      posts.innerHTML = "";
-      for(let i=0;i < history.length; i++){
-        let command = "";
-        if(history[i][1].indexOf("/") == 0){
-          let end = history[i][1].indexOf(" ");
-          command = history[i][1].slice(history[i][1].indexOf("/")+1,end);
-          history[i][1] = history[i][1].slice(end);
-        }
-
-        let p = document.createElement("P");
-          if(command =="blue"){
-            p.style.color = "blue";
-          }
-          if(command =="purple"){
-            p.style.color = "purple";
-          }
-          if(command =="red"){
-            p.style.color = "red";
-          }
-          if(command =="green"){
-            p.style.color = "green";
-          }
-          if(command =="pink"){
-            p.style.color = "pink";
-          }
-          if(command =="yellow"){
-            p.style.color = "yellow";
-          }
-          p.innerHTML = history[i][0]+": "+ history[i][1];
-          posts.appendChild(p);
-      }
-
-    });
-
-    socket.on("typing",(result)=>{
-      let p = document.getElementById("typing");
-      p.innerHTML = result;
-    })
-    username = prompt("username");
-}
-function change(){
-  document.getElementById("no").style.color = "red";
-  alert("Congrats you found a secret")
-}
-function start(){
-  alert("The commands are as follow:")
-  alert("/purple , /blue , /red , /green , /pink ,/yellow")
-}
-start();
-  </script>
+  <script src="main.js"></script>
   </html>

@@ -1,0 +1,30 @@
+#chat-form{
+  margin:100px;
+  padding:2px;
+  /* display: block;
+  margin-left:auto; */
+  margin: 0 auto;
+  width:500px;
+  position:relative;
+}
+#msg{
+  text-align:center;
+  font-weight: bold;
+  height:18px;
+  width:400px;
+}
+#send{
+
+}
+
+h1{
+  text-align:center;
+  color:green;
+}
+body{
+  background-color:lightblue;
+}
+
+p {
+  font-family:Arial;
+}

@@ -19,8 +19,9 @@ server.listen(port,()=>{
 })
 io.on("connection",(socket)=>{
     socket.emit("chat",history);
-  socket.on("chat",(name, result)=>{
-    history.push([name, result]);
+  socket.on("chat",(name, result, time)=>{
+    history.push([name, result, time]);
+    console.log(history);
     io.sockets.emit("chat",history);
     io.sockets.emit("typing","")
 
