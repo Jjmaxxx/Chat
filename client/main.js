@@ -4,8 +4,10 @@ window.onload = ()=>{
   let input = document.getElementById("msg");
   let posts = document.getElementById("posts");
   let username = "";
+  let users = [];
+  let usersnum = document.getElementById("users-number");
 
-
+  usersnum.innerHTML = "# of users:" + users.length;
   form.onsubmit = (event) =>{
     event.preventDefault();
     let now = new Date();
@@ -67,6 +69,17 @@ input.onkeydown = (event) => {
     p.innerHTML = result;
   })
   username = prompt("username");
+  socket.emit("adding user",username);
+  socket.on("showing users",(users)=>{
+    console.log(users);
+    users = users;
+    usersnum.innerHTML = "# of users:" + users.length;
+
+  });
+socket.on ("disconnect", function(){
+  console.log("disconnecting user");
+  socket.emit("remove users",username);
+});
 }
 function change(){
 document.getElementById("no").style.color = "red";

@@ -6,6 +6,7 @@ let port = process.env.PORT || 3000;
 let path = require('path');
 let server = require("http").Server(app);
 let io = require("socket.io")(server);
+let users = [];
 
 app.use(express.static(path.resolve(__dirname, './client')));
 
@@ -34,4 +35,15 @@ io.on("connection",(socket)=>{
       io.sockets.emit("typing",result + " is typing a message")
     }
   });
+  socket.on("adding user",(username)=>{
+    console.log("new user: " + username);
+    users.push(username);
+    socket.emit("showing users",users);
+  });
+  socket.on("remove users",(username)=>{
+    console.log("remove user: "  + username)
+    socket.on("disconnect",function(){
+      console.log("disconnecting:" + socket)
+    })
+  })
 })

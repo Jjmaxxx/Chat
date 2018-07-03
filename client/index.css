@@ -28,3 +28,15 @@ body{
 p {
   font-family:Arial;
 }
+#users-list{
+  min-height:150px;
+  height:50%;
+  min-width:150px;
+  max-width:500px;
+  width:25%;
+  display:inline-block;
+  position:fixed;
+  right:5%;
+  top:22%;
+  border:2px solid black;
+}
