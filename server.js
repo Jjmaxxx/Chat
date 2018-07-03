@@ -7,6 +7,7 @@ let path = require('path');
 let server = require("http").Server(app);
 let io = require("socket.io")(server);
 let users = [];
+let allClients = [];
 
 app.use(express.static(path.resolve(__dirname, './client')));
 
@@ -19,6 +20,7 @@ server.listen(port,()=>{
   console.log("alright")
 })
 io.on("connection",(socket)=>{
+    allClients.push(socket);
     socket.emit("chat",history);
   socket.on("chat",(name, result, time)=>{
     history.push([name, result, time]);
@@ -38,12 +40,15 @@ io.on("connection",(socket)=>{
   socket.on("adding user",(username)=>{
     console.log("new user: " + username);
     users.push(username);
+    console.log(users);
     socket.emit("showing users",users);
   });
-  socket.on("remove users",(username)=>{
-    console.log("remove user: "  + username)
-    socket.on("disconnect",function(){
-      console.log("disconnecting:" + socket)
-    })
+  socket.on("disconnect",function(){
+    console.log("disconnecting:" + socket)
+    var i= allClients.indexOf(socket);
+    allClients.splice(i,1);
+    users.splice(i,1);
+    console.log(allClients);
+    console.log(users);
   })
 })
