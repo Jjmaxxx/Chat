@@ -3,7 +3,7 @@
   "version":"0.0.1",
   "description":"yes",
   "scripts": {
-    "start": "node main.js"
+    "start": "node server.js"
   },
   "dependencies":{
       "express": "^4.16.3",
