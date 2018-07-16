@@ -6,6 +6,8 @@ window.onload = ()=>{
   let username = "";
   let users = [];
   let usersnum = document.getElementById("users-number");
+  let userslist = document.getElementById("users-list");
+  let userscontent = document.getElementById("users");
 
   usersnum.innerHTML = "# of users:" + users.length;
   form.onsubmit = (event) =>{
@@ -70,18 +72,31 @@ input.onkeydown = (event) => {
   })
   username = prompt("username");
   socket.emit("adding user",username);
-  socket.on("showing users",(users)=>{
-    console.log(users);
-    users = users;
+  socket.on("showing users",(userslist)=>{
+    console.log("userslist",userslist);
+    users = userslist;
     usersnum.innerHTML = "# of users:" + users.length;
-
+    showUsersName();
+    console.log("users",users);
   });
-socket.on ("disconnect", function(){
-  console.log("disconnecting user");
-  socket.emit("remove users",username);
-});
+
+  function showUsersName(){
+    while(userscontent.firstChild){
+      userscontent.removeChild(userscontent.firstChild);
+    }
+    console.log(users.length);
+    console.log(users);
+    for( let i=0;i < users.length;i++){
+      let content = document.createTextNode(users[i]);
+      let p = document.createElement("p");
+      p.appendChild(content);
+      userscontent.appendChild(p);
+    }
+  }
 }
-function change(){
+
+
+/*function change(){
 document.getElementById("no").style.color = "red";
 alert("Congrats you found a secret")
 }
@@ -90,3 +105,4 @@ alert("The commands are as follow:")
 alert("/purple , /blue , /red , /green , /pink ,/yellow")
 }
 start();
+*/

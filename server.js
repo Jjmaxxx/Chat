@@ -24,7 +24,7 @@ io.on("connection",(socket)=>{
     socket.emit("chat",history);
   socket.on("chat",(name, result, time)=>{
     history.push([name, result, time]);
-    console.log(history);
+    //console.log(history);
     io.sockets.emit("chat",history);
     io.sockets.emit("typing","")
 
@@ -38,17 +38,21 @@ io.on("connection",(socket)=>{
     }
   });
   socket.on("adding user",(username)=>{
-    console.log("new user: " + username);
+    //console.log("new user: " + username);
     users.push(username);
     console.log(users);
-    socket.emit("showing users",users);
+    //socket.emit sends to only one person
+    //io.emit sends to everyone
+    io.emit("showing users",users);
+    console.log("emit showing users");
   });
   socket.on("disconnect",function(){
-    console.log("disconnecting:" + socket)
+    //console.log("disconnecting:" + socket)
     var i= allClients.indexOf(socket);
     allClients.splice(i,1);
     users.splice(i,1);
-    console.log(allClients);
-    console.log(users);
+    // console.log(allClients);
+    // console.log(users);
+    io.emit("showing users",users);
   })
 })
