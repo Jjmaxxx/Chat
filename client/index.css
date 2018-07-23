@@ -1,20 +1,17 @@
 #chat-form{
-  margin:100px;
-  padding:2px;
-  /* display: block;
-  margin-left:auto; */
+  /* margin:100px; */
+  /* padding:2px; */
   margin: 0 auto;
-  width:500px;
+  width:460px;
   position:relative;
-}
+  top:10%;
+  display:block;
+  }
 #msg{
   text-align:center;
   font-weight: bold;
   height:18px;
   width:400px;
-}
-#send{
-
 }
 
 h1{
@@ -30,13 +27,26 @@ p {
 }
 #users-list{
   min-height:150px;
-  height:50%;
+  height:40%;
   min-width:150px;
   max-width:500px;
-  width:25%;
+  width:7%;
   display:inline-block;
   position:fixed;
-  right:5%;
+  right:1%;
   top:28%;
-  border:2px solid black;
+  border:3px solid black;
+}
+
+#typing {
+  display:inline-block;
+  position:fixed;
+  right:46%;
+  border:3px solid black;
+  margin: -30px;
+}
+
+#posts{
+  position:fixed;
+  right:60%;
 }
